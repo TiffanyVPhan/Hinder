@@ -6,15 +6,16 @@
   "author": "Joshua Franklin, Tiffany Phan, Jessican Sanborn, Evan Ram, Harsh Deshpande",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/main.js"
+    "start": "gulp && node dist/main.js"
   },
   "dependencies": {
     "@types/socket.io": "~1.4.29",
     "socket.io": "~2.0.3"
   },
   "devDependencies": {
-    "gulp": "~3.9.1",
-    "gulp-typescript": "~3.2.1",
-    "typescript": "~2.5.0"
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.2.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^3.7.3"
   }
 }
