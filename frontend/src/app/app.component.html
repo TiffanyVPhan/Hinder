@@ -1,17 +1,15 @@
-<!doctype html>
-<html lang="en">
-
 <body>
   <div class = center>
     <div class = title>
-      <h2> Hinder </h2> 
+      <h2> {{title}} </h2> 
       <p>Hinder is not how people meet. It's like real life, but worse.</p>
     </div>
     <div class = signUps>
-      <button class="button buttonLogIn">Sign Up</button>
-      <button class="button buttonLogIn">Log In</button>
+      <button routerLink="" class="button buttonLogIn">Sign Up</button>
+      <button routerLink="/login" class="button buttonLogIn">Log In</button>
+      
     </div>
   </div>
+  <router-outlet></router-outlet>
 </body>
 
-</html>
