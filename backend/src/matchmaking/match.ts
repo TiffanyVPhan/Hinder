@@ -1,4 +1,4 @@
-import {User} from "../user/user";
+import {User} from "../data/user";
 
 export class Match {
     constructor(

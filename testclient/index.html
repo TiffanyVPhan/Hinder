@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Client</title>
+</head>
+<body>
+
+<h1>Test Client</h1>
+
+<input id="email" value="test@test.com">
+<label for="email">Email</label>
+<br>
+<input id="password" value="test">
+<label for="password">Password</label>
+<br>
+<button onclick="signUp()">Sign Up</button>
+<button onclick="logIn()">Log In</button>
+
+<div id="log">
+    <h3>Log</h3>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
