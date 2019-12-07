@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+.center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
