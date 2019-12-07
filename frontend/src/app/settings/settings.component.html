@@ -1,1 +1,165 @@
-<p>settings works!</p>
+<!doctype html>
+<html lang="en">
+
+<style>
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-pink: rgb(250, 90, 128);
+    --color-dark-pink: rgb(200, 70, 100); /*For hovered buttons */
+    --color-grey: rgb(130, 130, 130);
+  }
+body {
+    font-family: 'arial';
+}
+h2 {
+    font-size: 2.5em;
+}
+p {
+    color: var(--color-grey);
+}
+.center {
+    text-align: center;
+    display: block; 
+    padding: 100px 0;
+}
+.signUps {
+    display: inline-block;
+}
+.button {
+    background-color: var(--color-pink);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+    display: block; 
+    width: 120px;
+    font-family: 'Montserrat';
+  }
+.button:hover {
+    background-color: var(--color-dark-pink);
+}
+/* -- SLIDER CSS -- */
+.preferences{
+	margin-top: 80px;
+}
+.slidecontainer {
+  width: 50%;
+  text-align: center;
+  /* width: 500px; */
+  margin:0 auto;
+}
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 13px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 1;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  text-align: center;
+}
+.slider:hover {
+  opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--color-dark-pink);
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--color-dark-pink);
+  cursor: pointer;
+}
+/* Labels below slider */
+.range-labels{
+	list-style-type: none;
+	width: 100%;
+	margin: 0;
+	/* text-align:left; */
+}
+li {
+  float: left;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+</style>
+
+
+<body>
+	<div class = "center">
+    <div class = "title">
+      <h2> Your Preferences  </h2> 
+      <p>Let us know what you agree with and what you dont. Then we can get to pairing!</p>
+    </div>
+
+	<div class="preferences">
+		<div class="slidecontainer">
+			<h3>Does pineapple belong on pizza?</h3>
+			<input type="range" min="-100" max="100" value="0" step="10" class="slider" id="pineapple">
+
+			<ul class="range-labels">
+				<li style="padding-left:0">Not Me</li>
+				<li>Not Really Me</li>
+				<li>Neither Me</li>
+				<li>Kinda Me</li>
+				<li style="padding-right:0">Me</li>
+			</ul>
+		</div>
+	</div>
+	<div class="preferences">
+		<div class="slidecontainer">
+			<h3>Is a hotdog a sandwich?</h3>
+			<input type="range" min="-100" max="100" value="0" step="10" class="slider" id="hotdog">
+
+			<ul class="range-labels">
+				<li style="padding-left:0">Not Me</li>
+				<li>Not Really Me</li>
+				<li>Neither Me</li>
+				<li>Kinda Me</li>
+				<li style="padding-right:0">Me</li>
+			</ul>
+		</div>
+	</div>
+	<div class="preferences">
+		<div class="slidecontainer">
+				<h3>Memes are annoying.</h3>
+				<input type="range" min="-100" max="100" value="0" step="10" class="slider" id="memes">
+	
+				<ul class="range-labels">
+					<li style="padding-left:0">Not Me</li>
+					<li>Not Really Me</li>
+					<li>Neither Me</li>
+					<li>Kinda Me</li>
+					<li style="padding-right:0">Me</li>
+				</ul>
+			</div>
+	</div>
+
+	<script>
+		var slider = document.getElementById("myRange");
+		var output = document.getElementById("demo");
+		output.innerHTML = slider.value;
+		slider.oninput = function() {
+			output.innerHTML = this.value;
+		}
+	</script>
+
+  </div>
+</body>
+
+</html>

@@ -7,10 +7,13 @@ import { CandidateComponent } from './candidate/candidate.component';
 import { ChatComponent } from './chat/chat.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
+  {path: '', component:LandingPageComponent},
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
+  
   // { path: '', component: AppComponent},
   // { path: '**', component: PageNotFoundComponent},
 ];
@@ -19,5 +22,8 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+
+
+export class AppRoutingModule {}
 export const routingComponents = [LoginComponent, SettingsComponent, PageNotFoundComponent]
+
