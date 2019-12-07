@@ -1,4 +1,4 @@
-import {SignUpMessage} from "./messages";
+import {LoginMessage, SettingsUpdateMessage, SignupMessage} from "./messages";
 import {CONFIG} from "../config";
 import {Database} from "../data/database";
 
@@ -11,11 +11,11 @@ const ERRORS = {
     EmailTaken: 4,
 };
 
-export function no(errors) {
+export function no(errors: number[]) {
     return !errors.length;
 }
 
-export function has(errors) {
+export function has(errors: number[]) {
     return !no(errors);
 }
 
@@ -41,10 +41,19 @@ export class Validator {
         return this.database.getUserByEmail(email) ? [ERRORS.EmailTaken] : [];
     }
 
-    signUpValid(message: SignUpMessage): number[] {
+    signupValid(message: SignupMessage): number[] {
         return this.emailValid(message.email).concat(this.passwordValid(message.password))
                                              .concat(this.birthdayValid(message.birthday))
                                              .concat(this.emailUnused(message.email));
     }
-}
 
+    loginValid(message: LoginMessage): number[] {
+        // TODO
+        return [];
+    }
+
+    settingsUpdateValid(message: SettingsUpdateMessage): number[] {
+        // TODO
+        return [];
+    }
+}
