@@ -3,13 +3,18 @@ import * as SocketIO from 'socket.io';
 import {Server as SocketIOServer, Socket, } from 'socket.io';
 import {CONFIG} from '../config'
 import {SignUpMessage} from "./messages";
-import {validateSignUp} from "./validators";
+import {has, no, Validator} from "./validators";
+import {Database} from "../data/database";
+
 
 export class Communication {
     private readonly httpServer: HTTPServer;
     private readonly socketIOServer: SocketIOServer;
 
-    constructor() {
+    constructor(
+        private database: Database,
+        private validator: Validator,
+    ) {
         this.httpServer = createServer();
 
         this.socketIOServer = SocketIO(this.httpServer , {
@@ -27,20 +32,28 @@ export class Communication {
     }
 
     onConnect(socket: Socket) {
-        console.log('User connected.');
         socket.on('/auth/signup', this.onSignup(socket).bind(this));
+        socket.on('/auth/login', this.onLogin(socket).bind(this));
     }
 
     onSignup(socket: Socket) {
-        console.log('User sent signup.');
         return (message: SignUpMessage) => {
-            const errors = validateSignUp(message);
-            this.sendSignupStatus(socket, errors.length ? errors[0] : 0);
+            const errors = this.validator.signUpValid(message);
+
+            if (no(errors))
+                this.database.addUser(message.email, message.password);
+
+            this.sendSignupStatus(socket, has(errors) ? errors[0] : 0);
+        }
+    }
+
+    onLogin(socket: Socket) {
+        return (message: SignUpMessage) => {
+            // TODO
         }
     }
 
     sendSignupStatus(socket: Socket, status: number) {
-        console.log('Responding...');
         socket.emit('/auth/signupstatus', status);
     }
 }
