@@ -1,0 +1,45 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+    --color-pink: rgb(250, 90, 128);
+    --color-dark-pink: rgb(200, 70, 100); /*For hovered buttons */
+    --color-grey: rgb(130, 130, 130);
+  }
+
+body {
+    font-family: 'Montserrat';
+}
+
+h2 {
+    font-weight: bold;
+}
+
+p {
+    color: var(--color-grey);
+}
+
+.center {
+    text-align: center;
+}
+
+.signUps {
+    display: inline-block;
+}
+
+.button {
+    background-color: var(--color-pink);
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 20%;
+    display: block; 
+  }
+
+.button:hover {
+    background-color: var(--color-dark-pink);
+}
