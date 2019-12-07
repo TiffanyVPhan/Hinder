@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Client</title>
+</head>
+<body>
+
+<h1>Test Client</h1>
+
+<h3>Misc</h3>
+<input id="token" value="">
+<label for="token">Token</label>
+<br>
+
+<h3>Login</h3>
+<input id="email" value="test@test.com">
+<label for="email">Email</label>
+<br>
+<input id="password" value="test">
+<label for="password">Password</label>
+<br>
+<button onclick="signUp()">Sign Up</button>
+<button onclick="logIn()">Log In</button>
+
+<h3>Settings</h3>
+<input id="name" value="Test">
+<label for="name">Name</label>
+<br>
+<input id="birthday" value="01/01/1970">
+<label for="birthday">Birthday</label>
+<br>
+<textarea id="opinions" rows="8" cols="50">
+{
+    "Pineapple on pizza?": 0.8,
+    "Is a hotdog a sandwich?": 0.2
+}
+</textarea>
+<label for="opinions">Opinions</label>
+<br>
+<button onclick="updateSettings()">Update Settings</button>
+
+<h3>Log</h3>
+<div id="log">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
