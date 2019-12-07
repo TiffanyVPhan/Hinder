@@ -1,0 +1,10 @@
+{
+  "files": [
+    "src/*.ts"
+  ],
+  "compilerOptions": {
+    "compileOnSave": false,
+    "noImplicitAny": true,
+    "target": "es6"
+  }
+}

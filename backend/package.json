@@ -1,0 +1,20 @@
+{
+  "name": "Hinder",
+  "version": "1.0.0",
+  "description": "Hinder is not how people meet. It's like real life, but worse.",
+  "main": "main.js",
+  "author": "Joshua Franklin, Tiffany Phan, Jessican Sanborn, Evan Ram, Harsh Deshpande",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "@types/socket.io": "~1.4.29",
+    "socket.io": "~2.0.3"
+  },
+  "devDependencies": {
+    "gulp": "~3.9.1",
+    "gulp-typescript": "~3.2.1",
+    "typescript": "~2.5.0"
+  }
+}
