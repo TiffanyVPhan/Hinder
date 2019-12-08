@@ -82,10 +82,10 @@ export class Communication {
         return (message: CandidatesGetMessage) => {
             const errors = this.validator.candidateGetValid(message);
 
-            let candidates: string[] = [];
+            let candidates: number[] = [];
             if (no(errors)) {
                 const user = this.database.getUserByToken(message.token);
-                candidates = this.matchMaker.get10MatchesTokens(user, message.index);
+                candidates = this.matchMaker.get10MatchesIds(user, message.index);
             }
 
             this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
@@ -104,7 +104,7 @@ export class Communication {
         socket.emit('/settings/updatestatus', status);
     }
 
-    sendCandidatesList(socket: Socket, status: number, candidates: string[]) {
+    sendCandidatesList(socket: Socket, status: number, candidates: number[]) {
         socket.emit('/candidates/list', status, candidates);
     }
 }

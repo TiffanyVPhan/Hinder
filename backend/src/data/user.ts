@@ -1,3 +1,8 @@
+import {request} from 'http'
+import {CONFIG} from "../config";
+import {matchServiceRequest} from "../network/request";
+
+
 function generateToken(): string {
     // TODO: Tokens need to be unique.
     return Math.floor(Math.random() * 99999).toString();
@@ -9,10 +14,16 @@ export class User {
     public birthday: string;
     public opinions: {[key: string]: number};
 
+    public matchServiceId: number;
+
     constructor(
         public email: string,
-        public password: string
-    ) {}
+        public password: string,
+    ) {
+        matchServiceRequest('/create', data => {
+            this.matchServiceId = Number(JSON.parse(data).success);
+        });
+    }
 
     newToken() {
         this.token = generateToken();
