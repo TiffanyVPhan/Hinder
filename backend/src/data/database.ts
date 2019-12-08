@@ -6,8 +6,8 @@ export class Database {
     constructor() {
         this.users = [];
 
-        this.addUser('test@test.com', 'i love harsh');
-        this.addUser('test2@test.com', 'i love harsh evan');
+        // this.addUser('test@test.com', 'i love harsh');
+        // this.addUser('test2@test.com', 'i love harsh evan');
     }
 
     addUser(email: string, password: string) {
@@ -28,8 +28,9 @@ export class Database {
     }
 
     getUserByMatchServiceId(id: number): User | undefined {
-        for (const user of this.users)
-            if (user.matchServiceId === id)
+        for (const user of this.users) {
+            if (user.matchServiceId == id) // This has to be a double equals and I don't know why
                 return user;
+        }
     }
 }

@@ -2,11 +2,12 @@ import {createServer, Server as HTTPServer} from 'http'
 import * as SocketIO from 'socket.io';
 import {Server as SocketIOServer, Socket, } from 'socket.io';
 import {CONFIG} from '../config'
-import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage} from "./messages";
+import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage, UserGetMessage} from "./messages";
 import {has, no, Validator} from "./validators";
 import {Database} from "../data/database";
 import {MatchMaker} from "../matchmaking/matchmaker";
 import {matchServiceRequest} from "../network/request";
+import {User} from "../data/user";
 
 
 export class Communication {
@@ -38,6 +39,7 @@ export class Communication {
         socket.on('/auth/signup', this.onSignup(socket).bind(this));
         socket.on('/auth/login', this.onLogin(socket).bind(this));
         socket.on('/settings/update', this.onSettingsUpdate(socket).bind(this));
+        socket.on('/user/get', this.onUserGet(socket).bind(this));
         socket.on('/candidates/get', this.onCandidatesGet(socket).bind(this));
     }
 
@@ -92,15 +94,16 @@ export class Communication {
 
     onUserGet(socket: Socket) {
         return (message: UserGetMessage) => {
-            const errors = this.validator.candidateGetValid(message);
+            const errors = this.validator.userGetValid(message);
 
+            let user: User = undefined;
             if (no(errors)) {
-                const user = this.database.getUserByToken(message.token);
-                this.matchMaker.get10MatchesIds(user, message.index).then(candidates => {
-                    this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
-                });
-            } else
-                this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, [])
+                console.log(message.userId);
+                user = this.database.getUserByMatchServiceId(message.userId);
+                console.log(user);
+            }
+
+            this.sendUserGetStatus(socket, has(errors) ? errors[0] : 0, user);
         }
     }
 
@@ -114,7 +117,7 @@ export class Communication {
                     this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
                 });
             } else
-                this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, [])
+                this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, []);
         }
     }
 
@@ -128,6 +131,15 @@ export class Communication {
 
     sendSettingsUpdateStatus(socket: Socket, status: number) {
         socket.emit('/settings/updatestatus', status);
+    }
+
+    sendUserGetStatus(socket: Socket, status: number, user: User) {
+        socket.emit('/user/getstatus', status, {
+            name: user.name,
+            birthday: user.birthday,
+            opinions: user.opinions,
+            id: user.matchServiceId,
+        });
     }
 
     sendCandidatesList(socket: Socket, status: number, candidates: number[]) {

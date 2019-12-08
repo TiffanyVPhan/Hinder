@@ -1,4 +1,4 @@
-import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage} from "./messages";
+import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage, UserGetMessage} from "./messages";
 import {CONFIG} from "../config";
 import {Database} from "../data/database";
 
@@ -53,6 +53,11 @@ export class Validator {
     }
 
     settingsUpdateValid(message: SettingsUpdateMessage): number[] {
+        // TODO
+        return [];
+    }
+
+    userGetValid(message: UserGetMessage): number[] {
         // TODO
         return [];
     }

@@ -6,6 +6,7 @@ const passwordElement = document.getElementById('password');
 const nameElement = document.getElementById('name');
 const birthdayElement = document.getElementById('birthday');
 const opinionsElement = document.getElementById('opinions');
+const getUserElement = document.getElementById('get-user');
 const indexElement = document.getElementById('index');
 const matchUserElement = document.getElementById('match-user');
 const chatUserElement = document.getElementById('chat-user');
@@ -36,6 +37,10 @@ socket.on('/auth/loginstatus', (status, token) => {
 
 socket.on('/settings/updatestatus', status => {
     log(`Received settings update status ${status}.`);
+});
+
+socket.on('/user/getstatus', (status, user) => {
+    log(`Received user get status ${status}. User: ${user.name}`);
 });
 
 socket.on('/candidates/list', (status, candidates) => {
@@ -70,10 +75,18 @@ function updateSettings() {
     log(`Updating setting name to ${nameElement.value}, birthday to ${birthdayElement.value}, and opinions to ${opinionsElement.value}...`);
     socket.emit('/settings/update', {
         token: tokenElement.value,
-        name: emailElement.value,
+        name: nameElement.value,
         password: passwordElement.value,
         opinions: JSON.parse(opinionsElement.value),
     });
+}
+
+function getUser() {
+    log(`Getting user ${getUserElement.value}...`);
+    socket.emit('/user/get', {
+        token: tokenElement.value,
+        userId: getUserElement.value,
+    })
 }
 
 function requestCandidates() {
