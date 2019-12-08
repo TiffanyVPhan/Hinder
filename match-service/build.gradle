@@ -19,5 +19,5 @@ dependencies {
 task run(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "com.hinderme.match.MatchServer"
-    args "5", "3000"
+    args "5", "8080"
 }

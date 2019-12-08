@@ -18,22 +18,15 @@ public class MatchServer {
         int features = Integer.parseInt(args[0]);
         PrefsMatrix prefsMatrix = new PrefsMatrix(features);
 
-        get("/create/:prefs", (req, res) -> {
-            Optional<double[]> prefs = parseDoubleList(req.params("prefs"));
+        get("/create", (req, res) -> {
+            double[] zeros = new double[features];
+            int userId = prefsMatrix.addRow(zeros).get();
 
-            if (prefs.isPresent()) {
-                Optional<Integer> userId = prefsMatrix.addRow(prefs.get());
-                if (userId.isPresent()) {
-                    res.status(200);
-                    return successJson(String.valueOf(userId.get()));
-                }
-            }
-
-            res.status(400);
-            return errorJson("Failed to create user from given preferences.");
+            res.status(200);
+            return successJson(Integer.toString(userId));
         });
 
-        get("/prefs/:userId/:prefs", (req, res) -> {
+        get("/update/:userId/:prefs", (req, res) -> {
             Optional<Integer> id = parseInt(req.params("userId"));
             Optional<double[]> prefs = parseDoubleList(req.params("prefs"));
 
@@ -65,7 +58,7 @@ public class MatchServer {
            return errorJson("User not found.");
         });
 
-        get("/prefs/top/:topN/:offset/:userId", (req, res) -> {
+        get("/top/:topN/:offset/:userId", (req, res) -> {
             Optional<Integer> topN = parseInt(req.params("topN"));
             Optional<Integer> offset = parseInt(req.params("offset"));
             Optional<Integer> userId = parseInt(req.params("userId"));
@@ -74,7 +67,8 @@ public class MatchServer {
                 Optional<int[]> matches = prefsMatrix.getTopMatches(topN.get(), offset.get(), userId.get());
 
                 if (matches.isPresent()) {
-                    return successJson(Arrays.toString(matches.get()));
+                    String arrStr = Arrays.toString(matches.get());
+                    return successJson(arrStr.substring(1, arrStr.length() - 1));
                 }
             }
 
