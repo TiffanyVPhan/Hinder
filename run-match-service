@@ -1,1 +1,0 @@
-java -jar match-service/build/libs/match-service-1.0.jar 5 8080
