@@ -1,9 +1,17 @@
 import {User} from "../data/user";
 import {Match} from "./match";
+import {Database} from "../data/database";
 
 export class MatchMaker {
-    async get10Matches(user: User, offset: number): Match[] {
-        const response = await fetch(`http://localhost:3000/prefs/top/10/${offset}/${user.prefServId}`)
-        return response;
+    constructor(
+        private database: Database,
+    ) {}
+
+    get10Matches(user: User, lastIndex: number): Match[] {
+        // TODO (Evan/Harsh)
+
+        // Get a list of at most 10 matches starting at `lastIndex`.
+
+        return [];
     }
 }

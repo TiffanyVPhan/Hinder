@@ -6,6 +6,8 @@ const passwordElement = document.getElementById('password');
 const nameElement = document.getElementById('name');
 const birthdayElement = document.getElementById('birthday');
 const opinionsElement = document.getElementById('opinions');
+const indexElement = document.getElementById('index');
+const candidateListElement = document.getElementById('candidateList');
 const logElement = document.getElementById('log');
 
 
@@ -34,6 +36,10 @@ socket.on('/settings/updatestatus', status => {
     log(`Received settings update status ${status}.`);
 });
 
+socket.on('/candidates/list', (status, candidates) => {
+    log(`Received candidates list status ${status}. Candidates ${candidates}.`);
+});
+
 function signUp() {
     log(`Signing up with email ${emailElement.value} and password ${passwordElement.value}...`);
     socket.emit('/auth/signup', {
@@ -58,4 +64,12 @@ function updateSettings() {
         password: passwordElement.value,
         opinions: JSON.parse(opinionsElement.value),
     });
+}
+
+function requestCandidates() {
+    log(`Requesting candidates starting at ${indexElement.value}...`);
+    socket.emit('/candidates/get', {
+        token: tokenElement.value,
+        index: indexElement.value,
+    })
 }
