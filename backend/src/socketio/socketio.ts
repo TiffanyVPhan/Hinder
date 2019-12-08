@@ -55,7 +55,7 @@ export class Communication {
         return (message: LoginMessage) => {
             const errors = this.validator.loginValid(message);
 
-            let token: string;
+            let token: string = '';
             if (no(errors))
                 token = this.database.getUserByEmail(message.email)!.newToken();
 
@@ -68,7 +68,7 @@ export class Communication {
             const errors = this.validator.settingsUpdateValid(message);
 
             if (no(errors))
-                this.database.getUserByToken(message.token).updateSettings(
+                this.database.getUserByToken(message.token)!.updateSettings(
                     message.name,
                     message.birthday,
                     message.opinions,
@@ -82,12 +82,13 @@ export class Communication {
         return (message: CandidatesGetMessage) => {
             const errors = this.validator.candidateGetValid(message);
 
+            let candidates: number[] = [];
             if (no(errors)) {
                 const user = this.database.getUserByToken(message.token);
-                this.matchMaker.get10Matches(user, message.index);
+                candidates = this.matchMaker.get10MatchesIds(user, message.index);
             }
 
-            this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, []);
+            this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
         }
     }
 
@@ -103,7 +104,7 @@ export class Communication {
         socket.emit('/settings/updatestatus', status);
     }
 
-    sendCandidatesList(socket: Socket, status: number, candidates: string[]) {
+    sendCandidatesList(socket: Socket, status: number, candidates: number[]) {
         socket.emit('/candidates/list', status, candidates);
     }
 }

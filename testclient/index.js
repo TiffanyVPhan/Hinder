@@ -7,7 +7,9 @@ const nameElement = document.getElementById('name');
 const birthdayElement = document.getElementById('birthday');
 const opinionsElement = document.getElementById('opinions');
 const indexElement = document.getElementById('index');
-const candidateListElement = document.getElementById('candidateList');
+const matchUserElement = document.getElementById('match-user');
+const chatUserElement = document.getElementById('chat-user');
+const messageElement = document.getElementById('message');
 const logElement = document.getElementById('log');
 
 
@@ -38,6 +40,14 @@ socket.on('/settings/updatestatus', status => {
 
 socket.on('/candidates/list', (status, candidates) => {
     log(`Received candidates list status ${status}. Candidates ${candidates}.`);
+});
+
+socket.on('/candidates/matchstatus', status => {
+    log(`Received candidate match status ${status}.`);
+});
+
+socket.on('/chat/sendstatus', status => {
+    log(`Received chat send status ${status}.`);
 });
 
 function signUp() {
@@ -71,5 +81,22 @@ function requestCandidates() {
     socket.emit('/candidates/get', {
         token: tokenElement.value,
         index: indexElement.value,
-    })
+    });
+}
+
+function requestMatch() {
+    log(`Requesting match with ${matchUserElement.value}...`);
+    socket.emit('/candidates/match', {
+        token: tokenElement.value,
+        user: matchUserElement.value,
+    });
+}
+
+function sendChat() {
+    log(`Sending message ${messageElement.value} to ${chatUserElement.value}...`);
+    socket.emit('/chat/send', {
+        token: tokenElement.value,
+        user: chatUserElement.value,
+        message: messageElement.value,
+    });
 }
