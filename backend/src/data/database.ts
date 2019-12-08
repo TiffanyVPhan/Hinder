@@ -7,7 +7,6 @@ export class Database {
         this.users = [];
     }
 
-
     addUser(email: string, password: string) {
         const user = new User(email, password);
         this.users.push(user);

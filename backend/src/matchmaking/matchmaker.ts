@@ -9,6 +9,7 @@ export class MatchMaker {
 
     getAllUsersExcept(currentUser: User): User[] {
         const result: User[] = [];
+
         for (const user of this.database.users)
             if (user !== currentUser)
                 result.push(user);
@@ -16,12 +17,16 @@ export class MatchMaker {
         return result;
     }
 
-    get10Matches(user: User, lastIndex: number): User[] {
+    get10Matches(user: User, index: number): User[] {
         // TODO (Evan/Harsh)
 
         // Get a list of at most 10 matches starting at `lastIndex`.
 
         // Temp
         return this.getAllUsersExcept(user);
+    }
+
+    get10MatchesTokens(user: User, index: number): string[] {
+        return this.get10Matches(user, index).map(user => user.token);
     }
 }
