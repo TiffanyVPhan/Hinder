@@ -1,0 +1,6 @@
+body {
+    height: 100%;
+}
+#grad {
+    background-image: linear-gradient(to right, #FD297B, #FF655B);
+}
