@@ -6,7 +6,8 @@
 :root {
     --color-pink: rgb(250, 90, 128);
     --color-dark-pink: rgb(200, 70, 100); /*For hovered buttons */
-    --color-grey: rgb(130, 130, 130);
+	 --color-grey: rgb(130, 130, 130);
+	 --color-orange: rgb(242, 153, 74);
   }
 
 body {
@@ -67,7 +68,7 @@ p {
   width: 100%;
   height: 13px;
   border-radius: 5px;
-  background: #d3d3d3;
+  background-image: linear-gradient(to right, var(--color-pink) , var(--color-orange));;
   outline: none;
   opacity: 1;
   -webkit-transition: .2s;
@@ -84,15 +85,22 @@ p {
   appearance: none;
   width: 25px;
   height: 25px;
-  border-radius: 50%;
-  background: var(--color-dark-pink);
+  
+  background: white;
+  outline-color: rgb(217, 162, 162);
+  outline-width: 3px;
+  outline-style: solid;
+  /* border-radius: 50%; */
   cursor: pointer;
 }
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  border-radius: 50%;
-  background: var(--color-dark-pink);
+  /* border-radius: 50%; */
+  background: white;
+  outline-color: rgb(217, 162, 162);
+  outline-width: 3px;
+  outline-style: solid;
   cursor: pointer;
 }
 /* Labels below slider */
