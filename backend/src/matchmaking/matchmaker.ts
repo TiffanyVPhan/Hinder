@@ -19,18 +19,15 @@ export class MatchMaker {
     }
 
     get10Matches(user: User, index: number): User[] {
-        // TODO (Evan/Harsh)
-
-        // Get a list of at most 10 matches starting at `lastIndex`.
+        const result = [];
 
         matchServiceRequest(`/prefs/${user.matchServiceId}`, data => {
             JSON.parse(data).success.split(',').forEach(opinion => {
-                Number(opinion)
+                result.push(this.database.getUserByMatchServiceId(Number(opinion)));
             });
         });
 
-        // Temp
-        return this.getAllUsersExcept(user);
+        return result;
     }
 
     get10MatchesIds(user: User, index: number): number[] {

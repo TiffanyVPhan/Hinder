@@ -23,4 +23,10 @@ export class Database {
             if (user.email === email)
                 return user;
     }
+
+    getUserByMatchServiceId(id: number): User | undefined {
+        for (const user of this.users)
+            if (user.matchServiceId === id)
+                return user;
+    }
 }

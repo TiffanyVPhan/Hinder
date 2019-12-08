@@ -1,5 +1,3 @@
-import {request} from 'http'
-import {CONFIG} from "../config";
 import {matchServiceRequest} from "../network/request";
 
 
