@@ -1,5 +1,6 @@
 package com.hinderme.match;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,23 @@ public class MatchServer {
 
            res.status(404);
            return errorJson("User not found.");
+        });
+
+        get("/prefs/top/:topN/:offset/:userId", (req, res) -> {
+            Optional<Integer> topN = parseInt(req.params("topN"));
+            Optional<Integer> offset = parseInt(req.params("offset"));
+            Optional<Integer> userId = parseInt(req.params("userId"));
+
+            if (topN.isPresent() && offset.isPresent() && userId.isPresent()) {
+                Optional<int[]> matches = prefsMatrix.getTopMatches(topN.get(), offset.get(), userId.get());
+
+                if (matches.isPresent()) {
+                    return successJson(Arrays.toString(matches.get()));
+                }
+            }
+
+            res.status(400);
+            return errorJson("Cannot get top-N results.");
         });
 
         /*

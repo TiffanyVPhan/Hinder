@@ -1,8 +1,6 @@
 package com.hinderme.match;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 // TODO make thread safe
 
@@ -57,31 +55,52 @@ public class PrefsMatrix {
         return Optional.empty();
     }
 
-    public Optional<Integer> findMatch(int id) {
-        if (id < 0 || id >= prefMatrix.size()) {
+    public Optional<int[]> getTopMatches(int n, int offset, int id) {
+        final int N = prefMatrix.size();
+
+        Optional<Match[]> matchesOpt = findAllMatches(id);
+
+        if (!matchesOpt.isPresent()) {
+            return Optional.empty();
+        }
+
+        Match[] matches = matchesOpt.get();
+        List<Integer> users = new ArrayList<>();
+
+        for (int i = offset; i < Math.min(N, offset + n); i++) {
+            users.add(matches[i].userId);
+        }
+
+        return Optional.of(users
+                            .stream()
+                            .mapToInt(x -> x)
+                            .toArray());
+    }
+
+    public Optional<Match[]> findAllMatches(int id) {
+        final int N = prefMatrix.size();
+
+        if (id < 0 || id >= N) {
             return Optional.empty();
         }
 
         double[] person = prefMatrix.get(id);
 
-        int row = -1;
-        double lowestDot = Double.MAX_VALUE;
+        Match[] matches = new Match[N];
 
-        for (int i = 0; i < prefMatrix.size(); i++) {
-            // we don't want to match a person with themselves
-            if (i == id) {
-                continue;
+        for (int user = 0; user < N; user++) {
+            double product = Double.MAX_VALUE; // dot w/ self should always be worst match
+            if (user != id) {
+                product = dot(person, prefMatrix.get(user));
             }
 
-            double match = dot(person, prefMatrix.get(i));
-
-            if (match < lowestDot) {
-                lowestDot = match;
-                row = i;
-            }
+            matches[user] = new Match(user, product);
         }
 
-        return Optional.of(row);
+        // order by lowest dot product
+        Arrays.sort(matches, Comparator.comparingDouble(m -> m.dot));
+
+        return Optional.of(matches);
     }
 
     public static double dot(double[] a, double[] b) {
