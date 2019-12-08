@@ -14,7 +14,8 @@ const routes: Routes = [
   {path: '', component:LandingPageComponent},
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'sign-up', component: SignupComponent }
+  { path: 'sign-up', component: SignupComponent },
+  { path: 'match', component: CandidateComponent}
   
   // { path: '', component: AppComponent},
   // { path: '**', component: PageNotFoundComponent},

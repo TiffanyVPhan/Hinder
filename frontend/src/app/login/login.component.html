@@ -1,20 +1,12 @@
 <body>
-    <div id=grad>
-    <div class=center>
-      <h3>Login</h3>
-      <div class = signUps>
-        <label for="email">Email   </label>
-        <input id="email" value="test@test.com">
-        <br>
-        <label for="password">Password </label>
-        <input id="password" value="test">
-        <br>
-        <button onclick="signUp()">Sign Up</button>
-        <button onclick="logIn()">Log In</button>
-                
-      </div>
+    <div id="login-box">
+        <div class="left">
+            <h1>Login</h1>
+            
+            <input type="text" name="username" placeholder="Username" />
+            <input type="password" name="password" placeholder="Password" />
+            
+            <input type="submit" name="signup_submit" value="Login" />
+        </div>
     </div>
-</div>
-    <router-outlet></router-outlet>
 </body>
-

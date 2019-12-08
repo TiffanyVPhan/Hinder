@@ -5,6 +5,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SignupComponent } from './signup/signup.component';
+import { CandidateComponent } from './candidate/candidate.component';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SignupComponent } from './signup/signup.component';
     AppComponent,
     routingComponents,
     LandingPageComponent,
-    SignupComponent
+    SignupComponent,
+    CandidateComponent
   ],
   imports: [
     BrowserModule,
