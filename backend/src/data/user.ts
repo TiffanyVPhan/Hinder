@@ -10,7 +10,7 @@ export class User {
     public token: string;
     public name: string;
     public birthday: string;
-    public opinions: {[key: string]: number};
+    public opinions: number[];
 
     public matchServiceId: number;
 
@@ -18,7 +18,7 @@ export class User {
         public email: string,
         public password: string,
     ) {
-        matchServiceRequest('/create', data => {
+        matchServiceRequest('/create').then((data: string) => {
             this.matchServiceId = Number(JSON.parse(data).success);
         });
     }
@@ -28,7 +28,7 @@ export class User {
         return this.token;
     }
 
-    updateSettings(name: string, birthday: string, opinions: {[key: string]: number}) {
+    updateSettings(name: string, birthday: string, opinions: number[]) {
         this.name = name;
         this.birthday = birthday;
         this.opinions = opinions;

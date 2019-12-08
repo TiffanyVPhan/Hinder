@@ -5,6 +5,9 @@ export class Database {
 
     constructor() {
         this.users = [];
+
+        this.addUser('test@test.com', 'i love harsh');
+        this.addUser('test2@test.com', 'i love harsh evan');
     }
 
     addUser(email: string, password: string) {

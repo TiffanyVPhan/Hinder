@@ -18,19 +18,19 @@ export class MatchMaker {
         return result;
     }
 
-    get10Matches(user: User, index: number): User[] {
-        const result = [];
+    async get10Matches(user: User, index: number): Promise<User[]> {
+        const result: User[] = [];
 
-        matchServiceRequest(`/prefs/${user.matchServiceId}`, data => {
-            JSON.parse(data).success.split(',').forEach(opinion => {
-                result.push(this.database.getUserByMatchServiceId(Number(opinion)));
-            });
-        });
+        const data = await matchServiceRequest(`/top/10/${index}/${user.matchServiceId}`);
+
+        for (const match of JSON.parse(data).success.split(',')) {
+            result.push(this.database.getUserByMatchServiceId(Number(match.replace(' ', ''))));
+        }
 
         return result;
     }
 
-    get10MatchesIds(user: User, index: number): number[] {
-        return this.get10Matches(user, index).map(user => user.matchServiceId);
+    async get10MatchesIds(user: User, index: number): Promise<number[]> {
+        return (await this.get10Matches(user, index)).map(user => user.matchServiceId);
     }
 }

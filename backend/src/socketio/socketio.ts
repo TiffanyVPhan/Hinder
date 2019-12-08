@@ -6,6 +6,7 @@ import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage
 import {has, no, Validator} from "./validators";
 import {Database} from "../data/database";
 import {MatchMaker} from "../matchmaking/matchmaker";
+import {matchServiceRequest} from "../network/request";
 
 
 export class Communication {
@@ -67,14 +68,39 @@ export class Communication {
         return (message: SettingsUpdateMessage) => {
             const errors = this.validator.settingsUpdateValid(message);
 
-            if (no(errors))
-                this.database.getUserByToken(message.token)!.updateSettings(
+            if (no(errors)) {
+                let user = this.database.getUserByToken(message.token)!;
+
+                user.updateSettings(
                     message.name,
                     message.birthday,
                     message.opinions,
                 );
 
+                let buffer = '';
+                for (const opinion of message.opinions) {
+                    buffer += `${opinion},`;
+                }
+                buffer = buffer.substring(0, buffer.length - 1);
+
+                matchServiceRequest(`/update/${user.matchServiceId}/${buffer}`).then((data: string) => {});
+            }
+
             this.sendSettingsUpdateStatus(socket, has(errors) ? errors[0] : 0);
+        }
+    }
+
+    onUserGet(socket: Socket) {
+        return (message: UserGetMessage) => {
+            const errors = this.validator.candidateGetValid(message);
+
+            if (no(errors)) {
+                const user = this.database.getUserByToken(message.token);
+                this.matchMaker.get10MatchesIds(user, message.index).then(candidates => {
+                    this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
+                });
+            } else
+                this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, [])
         }
     }
 
@@ -82,13 +108,13 @@ export class Communication {
         return (message: CandidatesGetMessage) => {
             const errors = this.validator.candidateGetValid(message);
 
-            let candidates: number[] = [];
             if (no(errors)) {
                 const user = this.database.getUserByToken(message.token);
-                candidates = this.matchMaker.get10MatchesIds(user, message.index);
-            }
-
-            this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
+                this.matchMaker.get10MatchesIds(user, message.index).then(candidates => {
+                    this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, candidates);
+                });
+            } else
+                this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, [])
         }
     }
 

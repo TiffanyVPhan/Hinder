@@ -13,10 +13,15 @@ export interface SettingsUpdateMessage {
     token: string,
     name: string,
     birthday: string,
-    opinions: {[key: string]: number},
+    opinions: number[],
 }
 
 export interface CandidatesGetMessage {
     token: string,
     index: number,
+}
+
+export interface UserGetMessage {
+    token: string,
+    userId: number,
 }
