@@ -2,9 +2,10 @@ import {createServer, Server as HTTPServer} from 'http'
 import * as SocketIO from 'socket.io';
 import {Server as SocketIOServer, Socket, } from 'socket.io';
 import {CONFIG} from '../config'
-import {LoginMessage, SettingsUpdateMessage, SignupMessage} from "./messages";
+import {CandidatesGetMessage, LoginMessage, SettingsUpdateMessage, SignupMessage} from "./messages";
 import {has, no, Validator} from "./validators";
 import {Database} from "../data/database";
+import {MatchMaker} from "../matchmaking/matchmaker";
 
 
 export class Communication {
@@ -14,6 +15,7 @@ export class Communication {
     constructor(
         private database: Database,
         private validator: Validator,
+        private matchMaker: MatchMaker,
     ) {
         this.httpServer = createServer();
 
@@ -35,6 +37,7 @@ export class Communication {
         socket.on('/auth/signup', this.onSignup(socket).bind(this));
         socket.on('/auth/login', this.onLogin(socket).bind(this));
         socket.on('/settings/update', this.onSettingsUpdate(socket).bind(this));
+        socket.on('/candidates/get', this.onCandidatesGet(socket).bind(this));
     }
 
     onSignup(socket: Socket) {
@@ -75,6 +78,19 @@ export class Communication {
         }
     }
 
+    onCandidatesGet(socket: Socket) {
+        return (message: CandidatesGetMessage) => {
+            const errors = this.validator.candidateGetValid(message);
+
+            if (no(errors)) {
+                const user = this.database.getUserByToken(message.token);
+                this.matchMaker.get10Matches(user, message.index);
+            }
+
+            this.sendCandidatesList(socket, has(errors) ? errors[0] : 0, []);
+        }
+    }
+
     sendSignupStatus(socket: Socket, status: number) {
         socket.emit('/auth/signupstatus', status);
     }
@@ -85,5 +101,9 @@ export class Communication {
 
     sendSettingsUpdateStatus(socket: Socket, status: number) {
         socket.emit('/settings/updatestatus', status);
+    }
+
+    sendCandidatesList(socket: Socket, status: number, candidates: string[]) {
+        socket.emit('/candidates/list', status, candidates);
     }
 }
