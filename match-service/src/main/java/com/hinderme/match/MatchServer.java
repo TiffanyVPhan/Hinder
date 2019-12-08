@@ -18,7 +18,7 @@ public class MatchServer {
         int features = Integer.parseInt(args[0]);
         PrefsMatrix prefsMatrix = new PrefsMatrix(features);
 
-        post("/create/:prefs", (req, res) -> {
+        get("/create/:prefs", (req, res) -> {
             Optional<double[]> prefs = parseDoubleList(req.params("prefs"));
 
             if (prefs.isPresent()) {
@@ -33,7 +33,7 @@ public class MatchServer {
             return errorJson("Failed to create user from given preferences.");
         });
 
-        post("/prefs/:userId/:prefs", (req, res) -> {
+        get("/prefs/:userId/:prefs", (req, res) -> {
             Optional<Integer> id = parseInt(req.params("userId"));
             Optional<double[]> prefs = parseDoubleList(req.params("prefs"));
 
