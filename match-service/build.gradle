@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.hinderme'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 sourceCompatibility = 1.8
 
@@ -20,4 +20,16 @@ task run(type: JavaExec) {
     classpath sourceSets.main.runtimeClasspath
     main = "com.hinderme.match.MatchServer"
     args "5", "8080"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "com.hinderme.match.MatchServer"
+    }
+
+    baseName = 'match-service'
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
